@@ -40,12 +40,14 @@ export default async function handler(req, res) {
             throw new Error('Invalid status data received');
         }
 
-        // Count taken domains
-        const takenDomainsCount = statusData.status.filter(item => item.status && item.status.includes("undelegated")).length;
+        // Count taken domains (where status is "active" or "active zone tld")
+        const takenDomainsCount = statusData.status.filter(item => 
+            item.status === "active" || item.status === "active zone tld"
+        ).length;
 
-        // Return the count of taken domains
+        // Return just the number of taken domains
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.status(200).json({ domain: name, takenCount: takenDomainsCount });
+        res.status(200).json(takenDomainsCount);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
