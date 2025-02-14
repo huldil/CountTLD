@@ -1,74 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Domain Search</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f9;
-    }
-
-    header {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 0;
-      text-align: center;
-    }
-
-    .container {
-      padding: 20px;
-    }
-
-    input, button {
-      padding: 10px;
-      font-size: 16px;
-      margin: 10px 0;
-    }
-
-    #results {
-      margin-top: 20px;
-    }
-
-    .domain-result {
-      margin: 10px 0;
-      padding: 10px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-
-    .domain-result a {
-      font-size: 16px;
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    .domain-result a:hover {
-      text-decoration: underline;
-    }
-
-    .domain-result span {
-      font-size: 14px;
-      color: #666;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domainr API Test</title>
 </head>
 <body>
-  <header>
     <h1>Domain Search</h1>
-  </header>
-  
-  <div class="container">
-    <input type="text" id="searchBox" placeholder="Enter domain name (e.g., harrybolz)">
-    <button id="searchButton">Search</button>
     
-    <div id="results"></div>
-  </div>
+    <label for="query">Enter domain search query (e.g., "acme cafe"):</label>
+    <input type="text" id="query" placeholder="Enter domain query">
+    <button id="searchButton">Search</button>
 
-  <script src="domainr.js"></script>
+    <h2>Results:</h2>
+    <pre id="results"></pre>
+
+    <script src="domainr.js"></script> <!-- We will include our JavaScript below -->
 </body>
 </html>
