@@ -1,62 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CountTLD</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        input, button {
-            padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CountTLD</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-    <h1>CountTLD</h1>
-    <input type="text" id="domain" placeholder="Enter domain name" />
-    <button onclick="searchDomain()">Search</button>
-    <p id="result"></p>
+  <h1>CountTLD</h1>
+  <input type="text" id="domain" placeholder="Enter domain name" />
+  <button onclick="searchDomain()">Search</button>
+  <p id="result"></p>
+  <ul id="takenTLDs"></ul> <!-- For displaying the taken TLDs -->
 
-    <script>
-        async function searchDomain() {
-            const domain = document.getElementById('domain').value;
-            const resultElement = document.getElementById('result');
+  <script>
+    async function searchDomain() {
+      const domain = document.getElementById('domain').value;
+      const resultElement = document.getElementById('result');
+      const takenTLDsElement = document.getElementById('takenTLDs');
+      takenTLDsElement.innerHTML = ''; // Clear previous results
 
-            if (!domain) {
-                resultElement.textContent = 'Please enter a domain name.';
-                return;
-            }
+      if (!domain) {
+        resultElement.textContent = 'Please enter a domain name.';
+        return;
+      }
 
-            try {
-                // Call the serverless function to search for the domain
-                const response = await fetch(`/api/domainr?query=${domain}`);
-                const data = await response.json();
+      const apiUrl = `/api/domainr?domain=${domain}`;
 
-                if (data.results) {
-                    const count = data.results.length;
-                    resultElement.textContent = `"${domain}" has been registered in ${count} TLDs.`;
-                } else {
-                    resultElement.textContent = `Error fetching data for "${domain}".`;
-                }
-            } catch (error) {
-                resultElement.textContent = 'Error fetching data.';
-            }
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.count > 0) {
+          resultElement.textContent = `"${domain}" is taken in ${data.count} TLDs.`;
+          data.takenTLDs.forEach(tld => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${domain}.${tld}`;
+            takenTLDsElement.appendChild(listItem);
+          });
+        } else {
+          resultElement.textContent = `"${domain}" is not taken in any TLDs.`;
         }
-    </script>
+      } catch (error) {
+        resultElement.textContent = 'Error fetching data.';
+      }
+    }
+  </script>
 </body>
 </html>
