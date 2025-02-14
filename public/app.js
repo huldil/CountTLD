@@ -28,7 +28,7 @@ function displayResults(domains, searchTerm) {
     let html = '<div class="domain-list">';
     
     domains.forEach(domain => {
-        const isTaken = domain.status.includes('active');
+        const isTaken = domain.status && domain.status.includes('active');
         if (isTaken) takenCount++;
         
         html += `
