@@ -35,9 +35,9 @@ export default async function handler(req, res) {
         const statusData = await statusResponse.json();
         console.log("API Response (Status):", statusData);
 
-        // Step 3: Safely process results
-        if (!statusData.status || !Array.isArray(statusData.status)) {
-            throw new Error('Invalid status data received');
+        // Step 3: Check if statusData.status exists and is an array
+        if (!statusData || !statusData.status || !Array.isArray(statusData.status)) {
+            throw new Error('Invalid status data or missing status field');
         }
 
         // Count taken domains (where status is "active" or "active zone tld")
@@ -47,8 +47,9 @@ export default async function handler(req, res) {
 
         // Return just the number of taken domains
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.status(200).json(takenDomainsCount);
+        res.status(200).json({ takenDomainsCount });
     } catch (error) {
+        console.error("Error:", error);
         res.status(500).json({ error: error.message });
     }
 }
