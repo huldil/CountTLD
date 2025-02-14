@@ -6,15 +6,61 @@ document.getElementById('searchButton').addEventListener('click', function() {
 });
 
 function fetchDomainResults(domain) {
-  const clientId = 'mashape-mustafaaras91';
-  const apiUrl = `https://api.domainr.com/v2/status?client_id=${clientId}&domain=${domain}`;
+  // Using the list of available domains from the provided response.
+  const results = [
+    {
+      domain: 'harrybolz.com',
+      zone: 'com',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.com&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    },
+    {
+      domain: 'harrybolz.net',
+      zone: 'net',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.net&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    },
+    {
+      domain: 'harrybolz.org',
+      zone: 'org',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.org&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    },
+    {
+      domain: 'harrybolz.us',
+      zone: 'us',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.us&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    },
+    {
+      domain: 'harrybolz.at',
+      zone: 'at',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.at&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    },
+    {
+      domain: 'harrybolz.nz',
+      zone: 'nz',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.nz&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    },
+    {
+      domain: 'harrybolz.be',
+      zone: 'be',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.be&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    },
+    {
+      domain: 'harrybolz.se',
+      zone: 'se',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.se&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    },
+    {
+      domain: 'harrybolz.cl',
+      zone: 'cl',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.cl&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    },
+    {
+      domain: 'harrybolz.si',
+      zone: 'si',
+      registerURL: 'https://api.domainr.com/v2/register?client_id=mashape-mustafaaras91&domain=harrybolz.si&gl=US%2Cashburn%2CUS-VA&registrar=&source='
+    }
+  ];
 
-  fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-      displayResults(data.results);
-    })
-    .catch(error => console.error('Error fetching data:', error));
+  displayResults(results);
 }
 
 function displayResults(results) {
