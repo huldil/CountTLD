@@ -16,6 +16,7 @@ export default async function handler(req, res) {
       });
 
       const data = await response.json();
+      console.log(data); // Log the API response for debugging
 
       if (data.results) {
         res.status(200).json({ count: data.results.length });
