@@ -3,82 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CountTLD</title>
+  <title>Domain Search</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
     }
+
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
     input, button {
       padding: 10px;
-      margin: 10px;
       font-size: 16px;
+      margin: 10px 0;
+    }
+
+    #results {
+      margin-top: 20px;
+    }
+
+    .domain-result {
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
       border-radius: 5px;
-      border: 1px solid #ccc;
     }
-    button {
-      background-color: #4CAF50;
-      color: white;
+
+    .domain-result a {
+      font-size: 16px;
+      color: #007bff;
+      text-decoration: none;
     }
-    ul {
-      list-style-type: none;
-      padding-left: 0;
+
+    .domain-result a:hover {
+      text-decoration: underline;
     }
-    li {
-      margin: 5px 0;
+
+    .domain-result span {
+      font-size: 14px;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <h1>CountTLD</h1>
-  <input type="text" id="domain" placeholder="Enter domain name" />
-  <button onclick="searchDomain()">Search</button>
-  <p id="result"></p>
-  <h3>Taken TLDs:</h3>
-  <ul id="takenTLDs"></ul>
+  <header>
+    <h1>Domain Search</h1>
+  </header>
+  
+  <div class="container">
+    <input type="text" id="searchBox" placeholder="Enter domain name (e.g., harrybolz)">
+    <button id="searchButton">Search</button>
+    
+    <div id="results"></div>
+  </div>
 
-  <script>
-    async function searchDomain() {
-      const domain = document.getElementById('domain').value;
-      const resultElement = document.getElementById('result');
-      const takenTLDsElement = document.getElementById('takenTLDs');
-      takenTLDsElement.innerHTML = ''; // Clear previous results
-
-      if (!domain) {
-        resultElement.textContent = 'Please enter a domain name.';
-        return;
-      }
-
-      const apiUrl = `/api/domainr?domain=${domain}`;
-
-      try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-
-        console.log(data); // Log the full response data for debugging
-
-        if (data.results && data.results.length > 0) {
-          resultElement.textContent = `"${domain}" is taken in the following TLDs:`;
-          data.results.forEach(domainData => {
-            const listItem = document.createElement('li');
-            const domainLink = document.createElement('a');
-            domainLink.href = domainData.registerURL;
-            domainLink.target = '_blank';
-            domainLink.textContent = domainData.domain;
-            listItem.appendChild(domainLink);
-            takenTLDsElement.appendChild(listItem);
-          });
-        } else {
-          resultElement.textContent = `"${domain}" is not taken in any TLDs.`;
-        }
-      } catch (error) {
-        resultElement.textContent = 'Error fetching data.';
-      }
-    }
-  </script>
+  <script src="domainr.js"></script>
 </body>
 </html>
