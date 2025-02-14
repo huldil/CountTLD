@@ -15,12 +15,18 @@ document.getElementById('searchButton').addEventListener('click', function() {
             "Host": "domainr.p.rapidapi.com"
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
+        console.log(data); // Check the API response in the browser console
         document.getElementById('results').textContent = JSON.stringify(data, null, 2);
     })
     .catch(error => {
         console.error('Error:', error);
-        document.getElementById('results').textContent = 'Error: ' + error;
+        document.getElementById('results').textContent = 'Error: ' + error.message;
     });
 });
