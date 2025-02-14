@@ -19,7 +19,15 @@ export default async function handler(req, res) {
       console.log(data); // Log the API response for debugging
 
       if (data.results) {
-        res.status(200).json({ count: data.results.length });
+        // Filter out the taken TLDs and map to get the TLD names
+        const takenTLDs = data.results.filter(result => result.avail === 'taken').map(result => result.domain.split('.').pop());
+        const count = takenTLDs.length;
+
+        if (count > 0) {
+          res.status(200).json({ count, takenTLDs });
+        } else {
+          res.status(200).json({ count: 0, takenTLDs: [] });
+        }
       } else {
         res.status(400).json({ error: 'No results found' });
       }
