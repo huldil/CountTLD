@@ -19,43 +19,30 @@ export default async function handler(req, res) {
         const searchData = await searchResponse.json();
         if (!searchData.results) throw new Error('Invalid API response: No results');
 
-        // Step 2: Check domain statuses in batches
+        // Step 2: Count the number of TLDs that are "taken"
         const domains = searchData.results.map(d => d.domain);
 
-        // Define batch size (e.g., 10 domains per request)
-        const batchSize = 10;
-        const domainBatches = [];
-        for (let i = 0; i < domains.length; i += batchSize) {
-            domainBatches.push(domains.slice(i, i + batchSize));
-        }
-
-        // Step 3: Process each batch and collect results
-        const allResults = [];
-        for (const batch of domainBatches) {
-            const statusUrl = `https://domainr.p.rapidapi.com/v2/status?domain=${batch.join(',')}`;
-            const statusResponse = await fetch(statusUrl, {
-                method: 'GET',
-                headers: {
-                    'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-                    'X-RapidAPI-Host': 'domainr.p.rapidapi.com'
-                }
-            });
-
-            const statusData = await statusResponse.json();
-            console.log("API Response (Status):", statusData);
-
-            if (statusData.status) {
-                const results = statusData.status.map(item => ({
-                    domain: item.domain,
-                    available: item.status.includes("undelegated"),  // "undelegated" means available
-                    registerURL: `https://www.namecheap.com/domains/registration/results/?domain=${item.domain}`
-                }));
-                allResults.push(...results);
+        // Make a request to check the status of these domains
+        const statusUrl = `https://domainr.p.rapidapi.com/v2/status?domain=${domains.join(',')}`;
+        const statusResponse = await fetch(statusUrl, {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+                'X-RapidAPI-Host': 'domainr.p.rapidapi.com'
             }
-        }
+        });
 
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.status(200).json(allResults);
+        const statusData = await statusResponse.json();
+
+        if (statusData.status) {
+            // Count the number of domains that are not available (status includes "undelegated" means available)
+            const takenCount = statusData.status.filter(item => !item.status.includes("undelegated")).length;
+
+            // Return the result
+            res.status(200).json({ message: `${name} has taken in ${takenCount} TLDs` });
+        } else {
+            throw new Error('No status data received');
+        }
     } catch (error) {
         console.error(error);  // Log the error for debugging
         res.status(500).json({ error: error.message });
