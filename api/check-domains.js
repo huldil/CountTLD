@@ -17,12 +17,12 @@ export default async function handler(req, res) {
         });
 
         const searchData = await searchResponse.json();
-        if (!searchData.results) throw new Error('Invalid API response: No results');
+        if (!searchData.results || !Array.isArray(searchData.results)) {
+            throw new Error('Invalid API response or no results found');
+        }
 
-        // Step 2: Count the number of TLDs that are "taken"
+        // Step 2: Extract domain names
         const domains = searchData.results.map(d => d.domain);
-
-        // Make a request to check the status of these domains
         const statusUrl = `https://domainr.p.rapidapi.com/v2/status?domain=${domains.join(',')}`;
         const statusResponse = await fetch(statusUrl, {
             method: 'GET',
@@ -33,18 +33,20 @@ export default async function handler(req, res) {
         });
 
         const statusData = await statusResponse.json();
+        console.log("API Response (Status):", statusData);
 
-        if (statusData.status) {
-            // Count the number of domains that are not available (status includes "undelegated" means available)
-            const takenCount = statusData.status.filter(item => !item.status.includes("undelegated")).length;
-
-            // Return the result
-            res.status(200).json({ message: `${name} has taken in ${takenCount} TLDs` });
-        } else {
-            throw new Error('No status data received');
+        // Step 3: Safely process results
+        if (!statusData.status || !Array.isArray(statusData.status)) {
+            throw new Error('Invalid status data received');
         }
+
+        // Count taken domains
+        const takenDomainsCount = statusData.status.filter(item => item.status && item.status.includes("undelegated")).length;
+
+        // Return the count of taken domains
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.status(200).json({ domain: name, takenCount: takenDomainsCount });
     } catch (error) {
-        console.error(error);  // Log the error for debugging
         res.status(500).json({ error: error.message });
     }
 }
