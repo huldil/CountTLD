@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         });
 
         const searchData = await searchResponse.json();
-        if (!searchData.results) throw new Error('Invalid API response');
+        if (!searchData.results) throw new Error('Invalid API response: No results');
 
         // Step 2: Check domain statuses
         const domains = searchData.results.map(d => d.domain);
@@ -33,7 +33,12 @@ export default async function handler(req, res) {
         const statusData = await statusResponse.json();
         console.log("API Response (Status):", statusData);
 
-        // Step 3: Process results correctly
+        // Step 3: Ensure statusData and statusData.status exist before processing
+        if (!statusData || !statusData.status || !Array.isArray(statusData.status)) {
+            throw new Error('Invalid API response: No status data or status data is not an array');
+        }
+
+        // Step 4: Process results correctly
         const results = statusData.status.map(item => ({
             domain: item.domain,
             available: item.status.includes("undelegated"),  // "undelegated" means available
@@ -43,6 +48,7 @@ export default async function handler(req, res) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(200).json(results);
     } catch (error) {
+        console.error(error);  // Log the error for debugging
         res.status(500).json({ error: error.message });
     }
 }
