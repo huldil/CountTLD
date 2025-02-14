@@ -1,81 +1,129 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2113.65">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CountTLD</title>
+
+    <style>
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            padding: 20px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            flex-direction: column;
+
+        }
+
+        input, button {
+
+            padding: 10px;
+
+            margin: 10px;
+
+            font-size: 16px;
+
+            border-radius: 5px;
+
+            border: 1px solid #ccc;
+
+        }
+
+        button {
+
+            background-color: #4CAF50;
+
+            color: white;
+
+        }
+
+    </style>
+
 </head>
+
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;CountTLD&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>input, button {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #ccc;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>button {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #4CAF50;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;CountTLD&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="domain" placeholder="Enter domain name" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;button onclick="searchDomain()"&gt;Search&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;p id="result"&gt;&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>async function searchDomain() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const domain = document.getElementById('domain').value;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const resultElement = document.getElementById('result');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (!domain) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>resultElement.textContent = 'Please enter a domain name.';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Replace with your actual Domainr API key</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const apiKey = 'YOUR_DOMAINR_API_KEY';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const apiUrl = `https://api.domainr.com/v2/search?mashape-key=${apiKey}&amp;query=${domain}`;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const response = await fetch(apiUrl);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const data = await response.json();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (data.results) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>const count = data.results.length;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>resultElement.textContent = `"${domain}" has been registered in ${count} TLDs.`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>resultElement.textContent = `Error fetching data for "${domain}".`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>resultElement.textContent = 'Error fetching data.';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+    <h1>CountTLD</h1>
+
+    <input type="text" id="domain" placeholder="Enter domain name" />
+
+    <button onclick="searchDomain()">Search</button>
+
+    <p id="result"></p>
+
+
+
+    <script>
+
+        async function searchDomain() {
+
+            const domain = document.getElementById('domain').value;
+
+            const resultElement = document.getElementById('result');
+
+
+
+            if (!domain) {
+
+                resultElement.textContent = 'Please enter a domain name.';
+
+                return;
+
+            }
+
+
+
+            // Replace with your actual Domainr API key
+
+            const apiKey = 'YOUR_DOMAINR_API_KEY';
+
+            const apiUrl = `https://api.domainr.com/v2/search?mashape-key=${apiKey}&query=${domain}`;
+
+
+
+            try {
+
+                const response = await fetch(apiUrl);
+
+                const data = await response.json();
+
+
+
+                if (data.results) {
+
+                    const count = data.results.length;
+
+                    resultElement.textContent = `"${domain}" has been registered in ${count} TLDs.`;
+
+                } else {
+
+                    resultElement.textContent = `Error fetching data for "${domain}".`;
+
+                }
+
+            } catch (error) {
+
+                resultElement.textContent = 'Error fetching data.';
+
+            }
+
+        }
+
+    </script>
+
 </body>
+
 </html>
